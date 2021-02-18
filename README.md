@@ -24,6 +24,27 @@ see help
 
 ```
 quickhla build -h
+
+usage: quickhla <sub-script> [options] [<arguments>...] build
+       [-h] [-gen GEN] [-nuc NUC] [-o O] [-kb KB] [-bb BB] [-hb HB] [-kl KL]
+       [-ml ML] [-ms MS]
+
+optional arguments:
+  -h, --help  show this help message and exit
+  -gen GEN    input gen file [mandatory]
+  -nuc NUC    input nuc file [mandatory]
+  -o O        output kraken2 database directory [default: hla.db]
+  -kb KB      specify kraken2-build binary [if not given assumes to be in
+              PATH]
+  -bb BB      specify bowtie2-build binary [if not given assumes to be in
+              PATH]
+  -hb HB      specify hisat2-build binary [if not given assumes to be in PATH]
+  -kl KL      kraken2 kmer-len array [default: 35] can be an array of values
+              and needs to be same length as -ml and -ms
+  -ml ML      kraken2 minimizer-len array [default: 31] if array needs to be
+              same length as -kl and -ms
+  -ms MS      kraken2 minimizer-space array [default: 7] if array needs to be
+              same length as -kl and -ml
 ```
 
 For paired reads `FORWARD.fq` and `REVERSE.fq` using the standard `nuc` database created for four-digits `4d` , the basic usage is:
@@ -36,6 +57,27 @@ see help
 
 ```
 quickhla classify -h
+
+usage: quickhla <sub-script> [options] [<arguments>...] classify
+       [-h] [-f F] [-r R] [-d D] [-db DB] [-o O] [-t T] [-kb KB] [-alg ALG]
+       [-bb BB] [-bo BO] [-hb HB] [-ho HO] [-n N]
+
+optional arguments:
+  -h, --help  show this help message and exit
+  -f F        specify forward fastq [mandatory]
+  -r R        specify reverse fastq [mandatory]
+  -d D        specify db directory [mandatory]
+  -db DB      specify db for classification [mandatory]
+  -o O        specify output prefix [default: out]
+  -t T        specify number threads [default: 1]
+  -kb KB      specify kraken2 binary [if not given assumes to be in PATH]
+  -alg ALG    specify aligner [default: hisat2]
+  -bb BB      specify bowtie2 binary [if not given assumes to be in PATH]
+  -bo BO      specify bowtie2 options [default: --very-fast --no-unal
+              --ignore-quals -k 20]
+  -hb HB      specify hisat2 binary [if not given assumes to be in PATH]
+  -ho HO      specify hisat2 options [default: --fast -k 20]
+  -n N        specify number of top hits to report [default: show all]
 ```
 
 ## Output
