@@ -8,6 +8,8 @@ to use k-mer content of next generation sequencing reads and subsequent mapping 
 
 `quickhla` heavily relies on the data from the [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) database.
 
+![quickhla workflow](quickhla.png)
+
 ## Usage
 
 First, the HLA k-mer databases need to be build (can take up to 30 minutes):
