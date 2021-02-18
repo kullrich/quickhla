@@ -137,7 +137,7 @@ Example shows the top 2 hits per HLA class `out.hla.nuc.4d.35.report`
   0.00  34      34      C       53892         DRB1*04:286N  
 ```
 
-2. mapping results (number of reads per clas)
+2. mapping results (number of reads per class)
 
 Example shows the top 2 hits per HLA class `out.hla.nuc.4d.35.class.txt
 
