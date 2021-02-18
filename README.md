@@ -51,23 +51,31 @@ quickhla requires:
 - kraken2 [https://ccb.jhu.edu/software/kraken2/](https://ccb.jhu.edu/software/kraken2/)
 - bowtie2 [http://bowtie-bio.sourceforge.net/bowtie2/index.shtml](http://bowtie-bio.sourceforge.net/bowtie2/index.shtml)
 - hisat2 [https://daehwankimlab.github.io/hisat2/](https://daehwankimlab.github.io/hisat2/)
+- biopython [https://biopython.org/](https://biopython.org/)
+- numpy [https://numpy.org/](https://numpy.org/)
 
 You can install them manually (see individual download pages):
 
 - kraken2 [https://github.com/DerrickWood/kraken2](https://github.com/DerrickWood/kraken2)
 - bowtie2 [https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.4.2](https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.4.2)
 - hisat2 [https://daehwankimlab.github.io/hisat2/download/](https://daehwankimlab.github.io/hisat2/download/)
+- biopython [https://biopython.org/wiki/Download](https://biopython.org/wiki/Download)
+- numpy [https://numpy.org/install/](https://numpy.org/install/)
 
 Or you can install them via conda:
 
 - kraken2 [https://anaconda.org/bioconda/kraken2](https://anaconda.org/bioconda/kraken2)
 - bowtie2 [https://anaconda.org/bioconda/bowtie2](https://anaconda.org/bioconda/bowtie2)
 - hista2 [https://anaconda.org/biobuilds/hisat2](https://anaconda.org/biobuilds/hisat2)
+- biopython [https://anaconda.org/anaconda/biopython](https://anaconda.org/anaconda/biopython)
+- numpy [https://anaconda.org/anaconda/numpy](https://anaconda.org/anaconda/numpy)
 
 ```
 conda install -c bioconda kraken2
 conda install -c bioconda bowtie2
 conda install -c biobuilds hisat2
+conda install -c anaconda biopython
+conda install -c anaconda numpy
 ```
 
 ## Installation
