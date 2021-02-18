@@ -92,6 +92,33 @@ cd quickhla
 python setup.py install
 ```
 
+### Manually in conda env
+
+```bash
+conda create -n quickhla python=3.8
+conda activate quickhla
+conda install -c bioconda kraken2
+conda install -c bioconda bowtie2
+conda install -c biobuilds hisat2
+conda install -c anaconda biopython
+conda install -c anaconda numpy
+git clone https://gitlab.gwdg.de/kristian.ullrich/quickhla.git
+cd quickhla
+python setup.py install
+```
+
+## Example
+
+Test HLA typing for individuals from [https://www.internationalgenome.org/](https://www.internationalgenome.org/)
+
+```
+# download test data
+wget ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase3/data/HG00100/sequence_read/SRR099966_1.filt.fastq.gz
+wget ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase3/data/HG00100/sequence_read/SRR099966_2.filt.fastq.gz
+# classify reads
+quickhla -f SRR099966_1.filt.fastq.gz -r SRR099966_2.filt.fastq.gz -d hla.db -db hla.nuc.4d.35 -n 2
+```
+
 ## Known Issues
 
 ## Contributing Code
