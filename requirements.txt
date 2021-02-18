@@ -1,0 +1,5 @@
+argparse
+wget
+numpy
+pandas
+biopython
