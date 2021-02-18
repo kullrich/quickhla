@@ -609,7 +609,11 @@ def main():
     # get args
     args = parser.parse_args()
     # call function
-    args.func(args, parser)
+    try:
+        args.func(args, parser)
+    except AttributeError:
+        parser.print_help()
+        parser.exit()
 
 
 if __name__ == '__main__':
