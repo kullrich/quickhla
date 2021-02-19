@@ -402,32 +402,32 @@ def build_kraken(args, parser):
         SeqIO.write(nuc_0d, args.o + '/hla.nuc.0d.' + str(kl) + '/data/data.fasta', 'fasta')
         write_weights(gen_weights, args.o + '/hla.gen.0d.' + str(kl) + '/data/data.weights')
         write_weights(nuc_weights, args.o + '/hla.nuc.0d.' + str(kl) + '/data/data.weights')
-        os.system(args.bb + ' ' +
+        os.system(args.bb + ' --threads ' + str(args.t) + ' ' +
                   args.o + '/hla.gen.0d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.gen.0d.' + str(kl) + '/data/data')
-        os.system(args.bb + ' ' +
+        os.system(args.bb + ' --threads ' + str(args.t) + ' ' +
                   args.o + '/hla.nuc.0d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.nuc.0d.' + str(kl) + '/data/data')
-        os.system(args.hb + ' ' +
+        os.system(args.hb + ' --threads ' + str(args.t) + ' ' +
                   args.o + '/hla.gen.0d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.gen.0d.' + str(kl) + '/data/data')
-        os.system(args.hb + ' ' +
+        os.system(args.hb + ' --threads ' + str(args.t) + ' ' +
                   args.o + '/hla.nuc.0d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.nuc.0d.' + str(kl) + '/data/data')
         # kraken-build add library
-        os.system(args.kb + ' --kmer-len ' + str(kl) +
+        os.system(args.kb + ' --kmer-len ' + str(kl) + ' --threads ' + str(args.t) +
                   ' --minimizer-len ' + str(ml) + ' --minimizer-spaces ' +
                   str(ms) + ' --add-to-library ' + args.o + '/hla.gen.0d.' +
                   str(kl) + '/data/data.fasta' + ' --db ' + args.o + '/hla.gen.0d.' + str(kl))
-        os.system(args.kb + ' --kmer-len ' + str(kl) +
+        os.system(args.kb + ' --kmer-len ' + str(kl) + ' --threads ' + str(args.t) +
                   ' --minimizer-len ' + str(ml) + ' --minimizer-spaces ' +
                   str(ms) + ' --add-to-library ' + args.o + '/hla.nuc.0d.' +
                   str(kl) + '/data/data.fasta' + ' --db ' + args.o + '/hla.nuc.0d.' + str(kl))
         # kraken-build build
-        os.system(args.kb + ' --kmer-len ' + str(kl) +
+        os.system(args.kb + ' --kmer-len ' + str(kl) + ' --threads ' + str(args.t) +
                   ' --minimizer-len ' + str(ml) + ' --minimizer-spaces ' +
                   str(ms) + ' --build --db ' + args.o + '/hla.gen.0d.' + str(kl))
-        os.system(args.kb + ' --kmer-len ' + str(kl) +
+        os.system(args.kb + ' --kmer-len ' + str(kl) + ' --threads ' + str(args.t) +
                   ' --minimizer-len ' + str(ml) + ' --minimizer-spaces ' +
                   str(ms) + ' --build --db ' + args.o + '/hla.nuc.0d.' + str(kl))
         # 2d
@@ -446,32 +446,32 @@ def build_kraken(args, parser):
         SeqIO.write(nuc_2d, args.o + '/hla.nuc.2d.' + str(kl) + '/data/data.fasta', 'fasta')
         write_weights(gen_weights, args.o + '/hla.gen.2d.' + str(kl) + '/data/data.weights')
         write_weights(nuc_weights, args.o + '/hla.nuc.2d.' + str(kl) + '/data/data.weights')
-        os.system(args.bb + ' ' +
+        os.system(args.bb + ' --threads ' + str(args.t) + ' ' +
                   args.o + '/hla.gen.2d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.gen.2d.' + str(kl) + '/data/data')
-        os.system(args.bb + ' ' +
+        os.system(args.bb + ' --threads ' + str(args.t) + ' ' +
                   args.o + '/hla.nuc.2d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.nuc.2d.' + str(kl) + '/data/data')
-        os.system(args.hb + ' ' +
+        os.system(args.hb + ' --threads ' + str(args.t) + ' ' +
                   args.o + '/hla.gen.2d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.gen.2d.' + str(kl) + '/data/data')
-        os.system(args.hb + ' ' +
+        os.system(args.hb + ' --threads ' + str(args.t) + ' ' +
                   args.o + '/hla.nuc.2d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.nuc.2d.' + str(kl) + '/data/data')
         # kraken-build add library
-        os.system(args.kb + ' --kmer-len ' + str(kl) +
+        os.system(args.kb + ' --kmer-len ' + str(kl) + ' --threads ' + str(args.t) +
                   ' --minimizer-len ' + str(ml) + ' --minimizer-spaces ' +
                   str(ms) + ' --add-to-library ' + args.o + '/hla.gen.2d.' +
                   str(kl) + '/data/data.fasta' + ' --db ' + args.o + '/hla.gen.2d.' + str(kl))
-        os.system(args.kb + ' --kmer-len ' + str(kl) +
+        os.system(args.kb + ' --kmer-len ' + str(kl) + ' --threads ' + str(args.t) +
                   ' --minimizer-len ' + str(ml) + ' --minimizer-spaces ' +
                   str(ms) + ' --add-to-library ' + args.o + '/hla.nuc.2d.' +
                   str(kl) + '/data/data.fasta' + ' --db ' + args.o + '/hla.nuc.2d.' + str(kl))
         # kraken-build build
-        os.system(args.kb + ' --kmer-len ' + str(kl) +
+        os.system(args.kb + ' --kmer-len ' + str(kl) + ' --threads ' + str(args.t) +
                   ' --minimizer-len ' + str(ml) + ' --minimizer-spaces ' +
                   str(ms) + ' --build --db ' + args.o + '/hla.gen.2d.' + str(kl))
-        os.system(args.kb + ' --kmer-len ' + str(kl) +
+        os.system(args.kb + ' --kmer-len ' + str(kl) + ' --threads ' + str(args.t) +
                   ' --minimizer-len ' + str(ml) + ' --minimizer-spaces ' +
                   str(ms) + ' --build --db ' + args.o + '/hla.nuc.2d.' + str(kl))
         # 4d
@@ -490,32 +490,32 @@ def build_kraken(args, parser):
         SeqIO.write(nuc_4d, args.o + '/hla.nuc.4d.' + str(kl) + '/data/data.fasta', 'fasta')
         write_weights(gen_weights, args.o + '/hla.gen.4d.' + str(kl) + '/data/data.weights')
         write_weights(nuc_weights, args.o + '/hla.nuc.4d.' + str(kl) + '/data/data.weights')
-        os.system(args.bb + ' ' +
+        os.system(args.bb + ' --threads ' + str(args.t) + ' ' +
                   args.o + '/hla.gen.4d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.gen.4d.' + str(kl) + '/data/data')
-        os.system(args.bb + ' ' +
+        os.system(args.bb + ' --threads ' + str(args.t) + ' ' +
                   args.o + '/hla.nuc.4d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.nuc.4d.' + str(kl) + '/data/data')
-        os.system(args.hb + ' ' +
+        os.system(args.hb + ' --threads ' + str(args.t) + ' ' +
                   args.o + '/hla.gen.4d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.gen.4d.' + str(kl) + '/data/data')
-        os.system(args.hb + ' ' +
+        os.system(args.hb + ' --threads ' + str(args.t) + ' ' +
                   args.o + '/hla.nuc.4d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.nuc.4d.' + str(kl) + '/data/data')
         # kraken-build add library
-        os.system(args.kb + ' --kmer-len ' + str(kl) +
+        os.system(args.kb + ' --kmer-len ' + str(kl) + ' --threads ' + str(args.t) +
                   ' --minimizer-len ' + str(ml) + ' --minimizer-spaces ' +
                   str(ms) + ' --add-to-library ' + args.o + '/hla.gen.4d.' +
                   str(kl) + '/data/data.fasta' + ' --db ' + args.o + '/hla.gen.4d.' + str(kl))
-        os.system(args.kb + ' --kmer-len ' + str(kl) +
+        os.system(args.kb + ' --kmer-len ' + str(kl) + ' --threads ' + str(args.t) +
                   ' --minimizer-len ' + str(ml) + ' --minimizer-spaces ' +
                   str(ms) + ' --add-to-library ' + args.o + '/hla.nuc.4d.' +
                   str(kl) + '/data/data.fasta' + ' --db ' + args.o + '/hla.nuc.4d.' + str(kl))
         # kraken-build build
-        os.system(args.kb + ' --kmer-len ' + str(kl) +
+        os.system(args.kb + ' --kmer-len ' + str(kl) + ' --threads ' + str(args.t) +
                   ' --minimizer-len ' + str(ml) + ' --minimizer-spaces ' +
                   str(ms) + ' --build --db ' + args.o + '/hla.gen.4d.' + str(kl))
-        os.system(args.kb + ' --kmer-len ' + str(kl) +
+        os.system(args.kb + ' --kmer-len ' + str(kl) + ' --threads ' + str(args.t) +
                   ' --minimizer-len ' + str(ml) + ' --minimizer-spaces ' +
                   str(ms) + ' --build --db ' + args.o + '/hla.nuc.4d.' + str(kl))
         # 6d
@@ -534,32 +534,32 @@ def build_kraken(args, parser):
         SeqIO.write(nuc_6d, args.o + '/hla.nuc.6d.' + str(kl) + '/data/data.fasta', 'fasta')
         write_weights(gen_weights, args.o + '/hla.gen.6d.' + str(kl) + '/data/data.weights')
         write_weights(nuc_weights, args.o + '/hla.nuc.6d.' + str(kl) + '/data/data.weights')
-        os.system(args.bb + ' ' +
+        os.system(args.bb + ' --threads ' + str(args.t) + ' ' +
                   args.o + '/hla.gen.6d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.gen.6d.' + str(kl) + '/data/data')
-        os.system(args.bb + ' ' +
+        os.system(args.bb + ' --threads ' + str(args.t) + ' ' +
                   args.o + '/hla.nuc.6d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.nuc.6d.' + str(kl) + '/data/data')
-        os.system(args.hb + ' ' +
+        os.system(args.hb + ' --threads ' + str(args.t) + ' ' +
                   args.o + '/hla.gen.6d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.gen.6d.' + str(kl) + '/data/data')
-        os.system(args.hb + ' ' +
+        os.system(args.hb + ' --threads ' + str(args.t) + ' ' +
                   args.o + '/hla.nuc.6d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.nuc.6d.' + str(kl) + '/data/data')
         # kraken-build add library
-        os.system(args.kb + ' --kmer-len ' + str(kl) +
+        os.system(args.kb + ' --kmer-len ' + str(kl) + ' --threads ' + str(args.t) +
                   ' --minimizer-len ' + str(ml) + ' --minimizer-spaces ' +
                   str(ms) + ' --add-to-library ' + args.o + '/hla.gen.6d.' +
                   str(kl) + '/data/data.fasta' + ' --db ' + args.o + '/hla.gen.6d.' + str(kl))
-        os.system(args.kb + ' --kmer-len ' + str(kl) +
+        os.system(args.kb + ' --kmer-len ' + str(kl) + ' --threads ' + str(args.t) +
                   ' --minimizer-len ' + str(ml) + ' --minimizer-spaces ' +
                   str(ms) + ' --add-to-library ' + args.o + '/hla.nuc.6d.' +
                   str(kl) + '/data/data.fasta' + ' --db ' + args.o + '/hla.nuc.6d.' + str(kl))
         # kraken-build build
-        os.system(args.kb + ' --kmer-len ' + str(kl) +
+        os.system(args.kb + ' --kmer-len ' + str(kl) + ' --threads ' + str(args.t) +
                   ' --minimizer-len ' + str(ml) + ' --minimizer-spaces ' +
                   str(ms) + ' --build --db ' + args.o + '/hla.gen.6d.' + str(kl))
-        os.system(args.kb + ' --kmer-len ' + str(kl) +
+        os.system(args.kb + ' --kmer-len ' + str(kl) + ' --threads ' + str(args.t) +
                   ' --minimizer-len ' + str(ml) + ' --minimizer-spaces ' +
                   str(ms) + ' --build --db ' + args.o + '/hla.nuc.6d.' + str(kl))
         # 8d
@@ -577,32 +577,32 @@ def build_kraken(args, parser):
         SeqIO.write(nuc_8d, args.o + '/hla.nuc.8d.' + str(kl) + '/data/data.fasta', 'fasta')
         write_weights(gen_weights, args.o + '/hla.gen.8d.' + str(kl) + '/data/data.weights')
         write_weights(nuc_weights, args.o + '/hla.nuc.8d.' + str(kl) + '/data/data.weights')
-        os.system(args.bb + ' ' +
+        os.system(args.bb + ' --threads ' + str(args.t) + ' ' +
                   args.o + '/hla.gen.8d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.gen.8d.' + str(kl) + '/data/data')
-        os.system(args.bb + ' ' +
+        os.system(args.bb + ' --threads ' + str(args.t) + ' ' +
                   args.o + '/hla.nuc.8d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.nuc.8d.' + str(kl) + '/data/data')
-        os.system(args.hb + ' ' +
+        os.system(args.hb + ' --threads ' + str(args.t) + ' ' +
                   args.o + '/hla.gen.8d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.gen.8d.' + str(kl) + '/data/data')
-        os.system(args.hb + ' ' +
+        os.system(args.hb + ' --threads ' + str(args.t) + ' ' +
                   args.o + '/hla.nuc.8d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.nuc.8d.' + str(kl) + '/data/data')
         # kraken-build add library
-        os.system(args.kb + ' --kmer-len ' + str(kl) +
+        os.system(args.kb + ' --kmer-len ' + str(kl) + ' --threads ' + str(args.t) +
                   ' --minimizer-len ' + str(ml) + ' --minimizer-spaces ' +
                   str(ms) + ' --add-to-library ' + args.o + '/hla.gen.8d.' +
                   str(kl) + '/data/data.fasta' + ' --db ' + args.o + '/hla.gen.8d.' + str(kl))
-        os.system(args.kb + ' --kmer-len ' + str(kl) +
+        os.system(args.kb + ' --kmer-len ' + str(kl) + ' --threads ' + str(args.t) +
                   ' --minimizer-len ' + str(ml) + ' --minimizer-spaces ' +
                   str(ms) + ' --add-to-library ' + args.o + '/hla.nuc.8d.' +
                   str(kl) + '/data/data.fasta' + ' --db ' + args.o + '/hla.nuc.8d.' + str(kl))
         # kraken-build build
-        os.system(args.kb + ' --kmer-len ' + str(kl) +
+        os.system(args.kb + ' --kmer-len ' + str(kl) + ' --threads ' + str(args.t) +
                   ' --minimizer-len ' + str(ml) + ' --minimizer-spaces ' +
                   str(ms) + ' --build --db ' + args.o + '/hla.gen.8d.' + str(kl))
-        os.system(args.kb + ' --kmer-len ' + str(kl) +
+        os.system(args.kb + ' --kmer-len ' + str(kl) + ' --threads ' + str(args.t) +
                   ' --minimizer-len ' + str(ml) + ' --minimizer-spaces ' +
                   str(ms) + ' --build --db ' + args.o + '/hla.nuc.8d.' + str(kl))
 
