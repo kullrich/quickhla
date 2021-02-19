@@ -703,12 +703,12 @@ def subparser(subparsers):
     parser_classify.add_argument('-w', help='apply weights on read counts [default: False]', action='store_true')
     parser_classify.add_argument('-bb', help='specify bowtie2 binary [if not given assumes to be in PATH]')
     parser_classify.add_argument('-bo', help='specify bowtie2 options '
-                                             '[default: --very-fast --no-unal --ignore-quals -k 20]',
-                                 default='--very-fast --no-unal --ignore-quals -k 20')
+                                             '[default: --very-fast --no-unal -k 1000]',
+                                 default='--very-fast --no-unal -k 1000')
     parser_classify.add_argument('-hb', help='specify hisat2 binary [if not given assumes to be in PATH]')
     parser_classify.add_argument('-ho', help='specify hisat2 options '
-                                             '[default: --fast -k 20]',
-                                 default='--fast -k 20')
+                                             '[default: --fast -k 1000]',
+                                 default='--fast -k 1000')
     parser_classify.add_argument('-n', help='specify number of top hits to report [default: show all]', type=int)
     parser_classify.set_defaults(func=classify)
 

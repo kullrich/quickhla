@@ -74,6 +74,7 @@ optional arguments:
   -t T        specify number threads [default: 1]
   -kb KB      specify kraken2 binary [if not given assumes to be in PATH]
   -alg ALG    specify aligner [default: hisat2]
+  -w          apply weights on read counts [default: False]
   -bb BB      specify bowtie2 binary [if not given assumes to be in PATH]
   -bo BO      specify bowtie2 options [default: --very-fast --no-unal
               --ignore-quals -k 20]
