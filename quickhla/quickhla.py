@@ -137,31 +137,49 @@ def weight_hit_dict(hit_dict, weights):
 def write_hit_dict(hit_dict, outfile, n):
     with open(outfile, 'w') as outhandle:
         for id_0d_k in sorted(list(hit_dict.keys())):
-            outhandle.write('%s\t%i\n' % (id_0d_k, hit_dict[id_0d_k][0]))
-            # print('%s\t%i\n' % (id_0d_k, hit_dict[id_0d_k][0]))
+            # define empty hit arrays for each digit
+            id_2d_hits = []
+            id_4d_hits = []
+            id_6d_hits = []
+            id_8d_hits = []
+            #outhandle.write('%s\t%i\n' % (id_0d_k, hit_dict[id_0d_k][0]))
+            print('%s\t%i\n' % (id_0d_k, hit_dict[id_0d_k][0]))
             id_2d_values = [[x[0], x[1][0]] for x in
-                            sorted(hit_dict[id_0d_k][1].items(), key=lambda x: x[1][0], reverse=True)][:n]
+                            sorted(hit_dict[id_0d_k][1].items(), key=lambda x: x[1][0], reverse=True)]
+            id_2d_hits.extend(sorted(id_2d_values, key=lambda x: x[1], reverse=True))
             for id_2d_k, id_2d_n in id_2d_values:
-                outhandle.write('\t%s\t%i\n' % (id_2d_k, id_2d_n))
-                # print('\t%s\t%i\n' % (id_2d_k, id_2d_n))
                 id_4d_values = [[x[0], x[1][0]] for x in
-                                sorted(hit_dict[id_0d_k][1][id_2d_k][1].items(), key=lambda x: x[1][0], reverse=True)][
-                               :n]
+                                sorted(hit_dict[id_0d_k][1][id_2d_k][1].items(), key=lambda x: x[1][0], reverse=True)]
+                id_2d_k_id_4d_hits = sorted(id_4d_values, key=lambda x: x[1], reverse=True)
+                id_4d_hits.extend(id_2d_k_id_4d_hits)
                 for id_4d_k, id_4d_n in id_4d_values:
-                    outhandle.write('\t\t%s\t%i\n' % (id_4d_k, id_4d_n))
-                    # print('\t\t%s\t%i\n' % (id_4d_k, id_4d_n))
                     id_6d_values = [[x[0], x[1][0]] for x in
                                     sorted(hit_dict[id_0d_k][1][id_2d_k][1][id_4d_k][1].items(), key=lambda x: x[1][0],
-                                           reverse=True)][:n]
+                                           reverse=True)]
+                    id_2d_k_id_4d_k_id_6d_hits = sorted(id_6d_values, key=lambda x: x[1], reverse=True)
+                    id_6d_hits.extend(id_2d_k_id_4d_k_id_6d_hits)
                     for id_6d_k, id_6d_n in id_6d_values:
-                        outhandle.write('\t\t\t%s\t%i\n' % (id_6d_k, id_6d_n))
-                        # print('\t\t\t%s\t%i\n' % (id_6d_k, id_6d_n))
                         id_8d_values = [[x[0], x[1][0]] for x in
                                         sorted(hit_dict[id_0d_k][1][id_2d_k][1][id_4d_k][1][id_6d_k][1].items(),
-                                               key=lambda x: x[1][0], reverse=True)][:n]
-                        for id_8d_k, id_8d_n in id_8d_values:
-                            outhandle.write('\t\t\t\t%s\t%i\n' % (id_8d_k, id_8d_n))
-                            # print('\t\t\t\t%s\t%i\n' % (id_8d_k, id_8d_n))
+                                               key=lambda x: x[1][0], reverse=True)]
+                        id_2d_k_id_4d_k_id_6d_k_id_8d_hits = sorted(id_8d_values, key=lambda x: x[1], reverse=True)
+                        id_8d_hits.extend(id_2d_k_id_4d_k_id_6d_k_id_8d_hits)
+            id_2d_hits = sorted(id_2d_hits, key=lambda x: x[1], reverse=True)[:n]
+            for id_2d_h, id_2d_n in id_2d_hits:
+                #outhandle.write('\t%s\t%i\n' % (id_2d_h, id_2d_n))
+                print('\t%s\t%i\n' % (id_2d_h, id_2d_n))
+            id_4d_hits = sorted(id_4d_hits, key=lambda x: x[1], reverse=True)[:n]
+            for id_4d_h, id_4d_n in id_4d_hits:
+                #outhandle.write('\t%s\t%i\n' % (id_4d_h, id_4d_n))
+                print('\t%s\t%i\n' % (id_4d_h, id_4d_n))
+            id_6d_hits = sorted(id_6d_hits, key=lambda x: x[1], reverse=True)[:n]
+            for id_6d_h, id_6d_n in id_6d_hits:
+                #outhandle.write('\t%s\t%i\n' % (id_6d_h, id_6d_n))
+                print('\t%s\t%i\n' % (id_6d_h, id_6d_n))
+            id_8d_hits = sorted(id_8d_hits, key=lambda x: x[1], reverse=True)[:n]
+            for id_8d_h, id_8d_n in id_8d_hits:
+                #outhandle.write('\t%s\t%i\n' % (id_8d_h, id_8d_n))
+                print('\t%s\t%i\n' % (id_8d_h, id_8d_n))
 
 
 def tree_to_names(tree, foo):
