@@ -689,6 +689,7 @@ def subparser(subparsers):
     parser_build.add_argument('-ms', help='kraken2 minimizer-space array [default: 7]'
                                           ' if array needs to be same length as -kl and -ml',
                               default=[7])
+    parser_build.add_argument('-t', help='specify number threads [default: 1]', default=1, type=int)
     parser_build.set_defaults(func=build_kraken)
     # classify; parser
     parser_classify = subparsers.add_parser('classify', help='classify help')
