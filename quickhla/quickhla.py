@@ -170,15 +170,15 @@ def write_hit_dict(hit_dict, outfile, n):
                 # print('\t%s\t%i\n' % (id_2d_h, id_2d_n))
             id_4d_hits = sorted(id_4d_hits, key=lambda x: x[1], reverse=True)[:n]
             for id_4d_h, id_4d_n in id_4d_hits:
-                outhandle.write('\t%s\t%i\n' % (id_4d_h, id_4d_n))
+                outhandle.write('\t\t%s\t%i\n' % (id_4d_h, id_4d_n))
                 # print('\t%s\t%i\n' % (id_4d_h, id_4d_n))
             id_6d_hits = sorted(id_6d_hits, key=lambda x: x[1], reverse=True)[:n]
             for id_6d_h, id_6d_n in id_6d_hits:
-                outhandle.write('\t%s\t%i\n' % (id_6d_h, id_6d_n))
+                outhandle.write('\t\t\t%s\t%i\n' % (id_6d_h, id_6d_n))
                 # print('\t%s\t%i\n' % (id_6d_h, id_6d_n))
             id_8d_hits = sorted(id_8d_hits, key=lambda x: x[1], reverse=True)[:n]
             for id_8d_h, id_8d_n in id_8d_hits:
-                outhandle.write('\t%s\t%i\n' % (id_8d_h, id_8d_n))
+                outhandle.write('\t\t\t\t%s\t%i\n' % (id_8d_h, id_8d_n))
                 # print('\t%s\t%i\n' % (id_8d_h, id_8d_n))
 
 
