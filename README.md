@@ -20,6 +20,8 @@ wget ftp://ftp.ebi.ac.uk/pub/databases/ipd/imgt/hla/fasta/hla_gen.fasta
 wget ftp://ftp.ebi.ac.uk/pub/databases/ipd/imgt/hla/fasta/hla_nuc.fasta
 # build databases with k-mer length of 35
 quickhla build -gen hla_gen.fasta -nuc hla_nuc.fasta
+# build databases with k-mer length of 35 using 12 threads
+quickhla build -gen hla_gen.fasta -nuc hla_nuc.fasta -t 12
 ```
 
 see help
@@ -47,12 +49,13 @@ optional arguments:
               same length as -kl and -ms
   -ms MS      kraken2 minimizer-space array [default: 7] if array needs to be
               same length as -kl and -ml
+  -t T        specify number threads [default: 1]
 ```
 
 For paired reads `FORWARD.fq` and `REVERSE.fq` using the standard `nuc` database created for four-digits `4d` , the basic usage is:
 
 ```bash
-quikhla classify -f FORWARD.fq -r REVERSE.fq -d hla.db -db hla.nuc.4d.35 -n 2
+quikhla classify -f FORWARD.fq -r REVERSE.fq -d hla.db -db hla.nuc.4d.35 -n 2 -t 12
 ```
 
 see help
@@ -77,9 +80,9 @@ optional arguments:
   -w          apply weights on read counts [default: False]
   -bb BB      specify bowtie2 binary [if not given assumes to be in PATH]
   -bo BO      specify bowtie2 options [default: --very-fast --no-unal
-              --ignore-quals -k 20]
+              -k 1000]
   -hb HB      specify hisat2 binary [if not given assumes to be in PATH]
-  -ho HO      specify hisat2 options [default: --fast -k 20]
+  -ho HO      specify hisat2 options [default: --fast -k 1000]
   -n N        specify number of top hits to report [default: show all]
 ```
 
@@ -316,8 +319,10 @@ Test HLA typing for individuals from [https://www.internationalgenome.org/](http
 # download test data
 wget ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase3/data/HG00100/sequence_read/SRR099966_1.filt.fastq.gz
 wget ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase3/data/HG00100/sequence_read/SRR099966_2.filt.fastq.gz
-# classify reads
-quickhla classify -f SRR099966_1.filt.fastq.gz -r SRR099966_2.filt.fastq.gz -d hla.db -db hla.nuc.4d.35 -n 2
+# classify reads - top 4 hits
+quickhla classify -f SRR099966_1.filt.fastq.gz -r SRR099966_2.filt.fastq.gz -d hla.db -db hla.nuc.4d.35 -n 4 -t 12
+# classify reads - top 4 hits - read counts weighted
+quickhla classify -f SRR099966_1.filt.fastq.gz -r SRR099966_2.filt.fastq.gz -d hla.db -db hla.nuc.4d.35 -n 4 -t 12 -w
 ```
 
 ## Known Issues
