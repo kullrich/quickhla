@@ -120,6 +120,20 @@ def parse_sam(samfile):
     return hit_dict
 
 
+def weight_hit_dict(hit_dict, weights):
+    for id_0d_k in hit_dict.keys():
+        hit_dict[id_0d_k][0] = hit_dict[id_0d_k][0] * weights[id_0d_k]
+        for id_2d_k in hit_dict[id_0d_k][1]:
+            hit_dict[id_0d_k][1][id_2d_k][0] = hit_dict[id_0d_k][1][id_2d_k][0] * weights[id_2d_k]
+            for id_4d_k in hit_dict[id_0d_k][1][id_2d_k][1]:
+                hit_dict[id_0d_k][1][id_2d_k][1][id_4d_k][0] = hit_dict[id_0d_k][1][id_2d_k][1][id_4d_k][0] * weights[
+                    id_4d_k]
+                for id_6d_k in hit_dict[id_0d_k][1][id_2d_k][1][id_4d_k][1]:
+                    hit_dict[id_0d_k][1][id_2d_k][1][id_4d_k][1][id_6d_k][0] = hit_dict[
+                        id_0d_k][1][id_2d_k][1][id_4d_k][1][id_6d_k][0] * weights[id_6d_k]
+    return hit_dict
+
+
 def write_hit_dict(hit_dict, outfile, n):
     with open(outfile, 'w') as outhandle:
         for id_0d_k in sorted(list(hit_dict.keys())):
@@ -131,7 +145,8 @@ def write_hit_dict(hit_dict, outfile, n):
                 outhandle.write('\t%s\t%i\n' % (id_2d_k, id_2d_n))
                 # print('\t%s\t%i\n' % (id_2d_k, id_2d_n))
                 id_4d_values = [[x[0], x[1][0]] for x in
-                                sorted(hit_dict[id_0d_k][1][id_2d_k][1].items(), key=lambda x: x[1][0], reverse=True)][:n]
+                                sorted(hit_dict[id_0d_k][1][id_2d_k][1].items(), key=lambda x: x[1][0], reverse=True)][
+                               :n]
                 for id_4d_k, id_4d_n in id_4d_values:
                     outhandle.write('\t\t%s\t%i\n' % (id_4d_k, id_4d_n))
                     # print('\t\t%s\t%i\n' % (id_4d_k, id_4d_n))
@@ -147,7 +162,6 @@ def write_hit_dict(hit_dict, outfile, n):
                         for id_8d_k, id_8d_n in id_8d_values:
                             outhandle.write('\t\t\t\t%s\t%i\n' % (id_8d_k, id_8d_n))
                             # print('\t\t\t\t%s\t%i\n' % (id_8d_k, id_8d_n))
-
 
 
 def tree_to_names(tree, foo):
@@ -196,6 +210,89 @@ def create_ids(hla_0d, hla_2d, hla_4d, hla_6d, hla_8d, tree, seq_array, level):
             seq_array[x_idx].name = id_8d + '|kraken:taxid|' + str(tree[id_8d][0]) + '|' + id_8d
             seq_array[x_idx].description = id_8d + '|kraken:taxid|' + str(tree[id_8d][0]) + '|' + id_8d
     return seq_array
+
+
+def get_weights(seq, hla_0d, hla_2d, hla_4d, hla_6d, hla_8d):
+    # combine
+    hla_0d_ids = hla_0d
+    hla_2d_ids = [x + '*' + y for x, y in zip(hla_0d_ids, hla_2d)]
+    hla_4d_ids = [x + ':' + y for x, y in zip(hla_2d_ids, hla_4d)]
+    hla_6d_ids = [x + ':' + y for x, y in zip(hla_4d_ids, hla_6d)]
+    hla_8d_ids = [x + ':' + y for x, y in zip(hla_6d_ids, hla_8d)]
+    # get total seq length
+    seq_len = np.sum([len(x) for x in seq])
+    # get hla_0d seq length
+    hla_0d_seq_len = {}
+    hla_2d_seq_len = {}
+    hla_4d_seq_len = {}
+    hla_6d_seq_len = {}
+    hla_8d_seq_len = {}
+    for x, y in zip(seq, hla_8d_ids):
+        y_0d = y.split('*')[0]
+        y_2d = y.split(':')[0]
+        y_4d = y_2d + ':' + y.split(':')[1]
+        y_6d = y_4d + ':' + y.split(':')[2]
+        y_8d = y
+        if y_0d in hla_0d_seq_len:
+            hla_0d_seq_len[y_0d] += len(x)
+        if y_0d not in hla_0d_seq_len:
+            hla_0d_seq_len[y_0d] = len(x)
+        if y_2d in hla_2d_seq_len:
+            hla_2d_seq_len[y_2d] += len(x)
+        if y_2d not in hla_2d_seq_len:
+            hla_2d_seq_len[y_2d] = len(x)
+        if y_4d in hla_4d_seq_len:
+            hla_4d_seq_len[y_4d] += len(x)
+        if y_4d not in hla_4d_seq_len:
+            hla_4d_seq_len[y_4d] = len(x)
+        if y_6d in hla_6d_seq_len:
+            hla_6d_seq_len[y_6d] += len(x)
+        if y_6d not in hla_6d_seq_len:
+            hla_6d_seq_len[y_6d] = len(x)
+        if y_8d in hla_8d_seq_len:
+            hla_8d_seq_len[y_8d] += len(x)
+        if y_8d not in hla_8d_seq_len:
+            hla_8d_seq_len[y_8d] = len(x)
+    weights = {}
+    # 0d
+    for k, v in hla_0d_seq_len.items():
+        weights[k] = seq_len/v
+    # 2d
+    for k, v in hla_2d_seq_len.items():
+        y_0d = k.split('*')[0]
+        weights[k] = hla_0d_seq_len[y_0d]/v
+    # 4d
+    for k, v in hla_4d_seq_len.items():
+        y_2d = k.split(':')[0]
+        weights[k] = hla_2d_seq_len[y_2d]/v
+    # 6d
+    for k, v in hla_6d_seq_len.items():
+        y_2d = k.split(':')[0]
+        y_4d = y_2d + ':' + k.split(':')[1]
+        weights[k] = hla_4d_seq_len[y_4d]/v
+    # 8d
+    for k, v in hla_8d_seq_len.items():
+        y_2d = k.split(':')[0]
+        y_4d = y_2d + ':' + k.split(':')[1]
+        y_6d = y_4d + ':' + k.split(':')[2]
+        weights[k] = hla_6d_seq_len[y_6d]/v
+    return weights
+
+
+def write_weights(weights, foo):
+    with open(foo, 'w') as outhandle:
+        for k in weights:
+            outhandle.write('%s\t%s\n' % (k, str(weights[k])))
+
+
+def read_weights(foo):
+    weights = {}
+    with open(foo, 'r') as inhandle:
+        for line in inhandle:
+            k = line.strip().split('\t')[0]
+            v = line.strip().split('\t')[1]
+            weights[k] = float(v)
+    return weights
 
 
 def build_kraken(args, parser):
@@ -252,7 +349,7 @@ def build_kraken(args, parser):
         os.system('mkdir -p ' + args.o + '/hla.nuc.8d.' + str(kl) + '/taxonomy')
     gen = list(SeqIO.parse(args.gen, 'fasta'))
     nuc = list(SeqIO.parse(args.nuc, 'fasta'))
-    # seperate record names into 0d, 2d, 4d, 6d, 8d
+    # separate record names into 0d, 2d, 4d, 6d, 8d
     gen_hla = [x.description.split(' ')[1] for x in gen]
     nuc_hla = [x.description.split(' ')[1] for x in nuc]
     # 0d
@@ -284,6 +381,9 @@ def build_kraken(args, parser):
     # build taxid tree
     gen_tree = build_taxid_tree(gen_hla_0d, gen_hla_2d, gen_hla_4d, gen_hla_6d, gen_hla_8d)
     nuc_tree = build_taxid_tree(nuc_hla_0d, nuc_hla_2d, nuc_hla_4d, nuc_hla_6d, nuc_hla_8d)
+    # get weights
+    gen_weights = get_weights(gen, gen_hla_0d, gen_hla_2d, gen_hla_4d, gen_hla_6d, gen_hla_8d)
+    nuc_weights = get_weights(nuc, nuc_hla_0d, nuc_hla_2d, nuc_hla_4d, nuc_hla_6d, nuc_hla_8d)
     # create kraken database
     for kl, ml, ms in zip(args.kl, args.ml, args.ms):
         # 0d
@@ -300,6 +400,8 @@ def build_kraken(args, parser):
         # write fasta file
         SeqIO.write(gen_0d, args.o + '/hla.gen.0d.' + str(kl) + '/data/data.fasta', 'fasta')
         SeqIO.write(nuc_0d, args.o + '/hla.nuc.0d.' + str(kl) + '/data/data.fasta', 'fasta')
+        write_weights(gen_weights, args.o + '/hla.gen.0d.' + str(kl) + '/data/data.weights')
+        write_weights(nuc_weights, args.o + '/hla.nuc.0d.' + str(kl) + '/data/data.weights')
         os.system(args.bb + ' ' +
                   args.o + '/hla.gen.0d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.gen.0d.' + str(kl) + '/data/data')
@@ -342,6 +444,8 @@ def build_kraken(args, parser):
         # write fasta file
         SeqIO.write(gen_2d, args.o + '/hla.gen.2d.' + str(kl) + '/data/data.fasta', 'fasta')
         SeqIO.write(nuc_2d, args.o + '/hla.nuc.2d.' + str(kl) + '/data/data.fasta', 'fasta')
+        write_weights(gen_weights, args.o + '/hla.gen.2d.' + str(kl) + '/data/data.weights')
+        write_weights(nuc_weights, args.o + '/hla.nuc.2d.' + str(kl) + '/data/data.weights')
         os.system(args.bb + ' ' +
                   args.o + '/hla.gen.2d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.gen.2d.' + str(kl) + '/data/data')
@@ -384,6 +488,8 @@ def build_kraken(args, parser):
         # write fasta file
         SeqIO.write(gen_4d, args.o + '/hla.gen.4d.' + str(kl) + '/data/data.fasta', 'fasta')
         SeqIO.write(nuc_4d, args.o + '/hla.nuc.4d.' + str(kl) + '/data/data.fasta', 'fasta')
+        write_weights(gen_weights, args.o + '/hla.gen.4d.' + str(kl) + '/data/data.weights')
+        write_weights(nuc_weights, args.o + '/hla.nuc.4d.' + str(kl) + '/data/data.weights')
         os.system(args.bb + ' ' +
                   args.o + '/hla.gen.4d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.gen.4d.' + str(kl) + '/data/data')
@@ -426,6 +532,8 @@ def build_kraken(args, parser):
         # write fasta file
         SeqIO.write(gen_6d, args.o + '/hla.gen.6d.' + str(kl) + '/data/data.fasta', 'fasta')
         SeqIO.write(nuc_6d, args.o + '/hla.nuc.6d.' + str(kl) + '/data/data.fasta', 'fasta')
+        write_weights(gen_weights, args.o + '/hla.gen.6d.' + str(kl) + '/data/data.weights')
+        write_weights(nuc_weights, args.o + '/hla.nuc.6d.' + str(kl) + '/data/data.weights')
         os.system(args.bb + ' ' +
                   args.o + '/hla.gen.6d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.gen.6d.' + str(kl) + '/data/data')
@@ -467,6 +575,8 @@ def build_kraken(args, parser):
         # write fasta file
         SeqIO.write(gen_8d, args.o + '/hla.gen.8d.' + str(kl) + '/data/data.fasta', 'fasta')
         SeqIO.write(nuc_8d, args.o + '/hla.nuc.8d.' + str(kl) + '/data/data.fasta', 'fasta')
+        write_weights(gen_weights, args.o + '/hla.gen.8d.' + str(kl) + '/data/data.weights')
+        write_weights(nuc_weights, args.o + '/hla.nuc.8d.' + str(kl) + '/data/data.weights')
         os.system(args.bb + ' ' +
                   args.o + '/hla.gen.8d.' + str(kl) + '/data/data.fasta ' +
                   args.o + '/hla.gen.8d.' + str(kl) + '/data/data')
@@ -553,6 +663,10 @@ def classify(args, parser):
                 ' -S ' + args.o + '.' + args.db + '.sam')
         # create hit dictionary
         hit_dict = parse_sam(args.o + '.' + args.db + '.sam')
+        # get weights
+        if args.w:
+            weights = read_weights(args.d + '/' + args.db + '/data/data.weights')
+            hit_dict = weight_hit_dict(hit_dict, weights)
         write_hit_dict(hit_dict, args.o + '.' + args.db + '.class.txt', args.n)
 
 
@@ -586,6 +700,7 @@ def subparser(subparsers):
     parser_classify.add_argument('-t', help='specify number threads [default: 1]', default=1, type=int)
     parser_classify.add_argument('-kb', help='specify kraken2 binary [if not given assumes to be in PATH]')
     parser_classify.add_argument('-alg', help='specify aligner [default: hisat2]', default='hisat2')
+    parser_classify.add_argument('-w', help='apply weights on read counts [default: False]', action='store_true')
     parser_classify.add_argument('-bb', help='specify bowtie2 binary [if not given assumes to be in PATH]')
     parser_classify.add_argument('-bo', help='specify bowtie2 options '
                                              '[default: --very-fast --no-unal --ignore-quals -k 20]',

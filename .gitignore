@@ -26,3 +26,5 @@ wheels/
 MANIFEST
 bin/
 include/
+
+.idea
