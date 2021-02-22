@@ -52,7 +52,7 @@ optional arguments:
   -t T        specify number threads [default: 1]
 ```
 
-One can also create the consensus sequences for the different digit levels and use this files as the database.
+One can also create the consensus sequences for the different digit levels `2d`, `4d`, `6d` and subsequently use these files to build the database.
 
 ```
 mkdir msf
@@ -60,7 +60,12 @@ cd msf
 wget -A msf -l 1 -r -nd --no-parent ftp://ftp.ebi.ac.uk/pub/databases/ipd/imgt/hla/msf/
 quickhla msf -i .
 cd ..
-quickhla build -gen msf/gen_2d.consensus.fasta -nuc msf/nuc_2d.consensus.fasta -t 12 -o msf.db
+# 2d
+quickhla build -gen msf/gen_2d.consensus.fasta -nuc msf/nuc_2d.consensus.fasta -t 12 -o msf.2d.db
+# 4d
+quickhla build -gen msf/gen_4d.consensus.fasta -nuc msf/nuc_4d.consensus.fasta -t 12 -o msf.4d.db
+# 6d
+quickhla build -gen msf/gen_6d.consensus.fasta -nuc msf/nuc_6d.consensus.fasta -t 12 -o msf.6d.db
 ```
 
 For paired reads `FORWARD.fq` and `REVERSE.fq` using the standard `nuc` database created for four-digits `4d` , the basic usage is:
