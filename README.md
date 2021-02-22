@@ -52,6 +52,15 @@ optional arguments:
   -t T        specify number threads [default: 1]
 ```
 
+One can also create the consensus sequences for the different digit levels and use this files as the database.
+
+```
+mkdir msf
+cd msf
+wget -A msf -l 1 -r -nd --no-parent ftp://ftp.ebi.ac.uk/pub/databases/ipd/imgt/hla/msf/
+quickhla msf -i .
+```
+
 For paired reads `FORWARD.fq` and `REVERSE.fq` using the standard `nuc` database created for four-digits `4d` , the basic usage is:
 
 ```bash

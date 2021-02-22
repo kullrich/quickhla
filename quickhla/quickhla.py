@@ -812,7 +812,7 @@ def subparser(subparsers):
     # build consensus; parser
     parser_msf = subparsers.add_parser('msf', help='msf help')
     parser_msf.add_argument('-i', help='specify msf directory [mandatory]')
-    parser_classify.set_defaults(func=msf)
+    parser_msf.set_defaults(func=msf)
 
 
 def main():
