@@ -756,7 +756,7 @@ def msf(args, parser):
             k_alg = MultipleSeqAlignment(k_records)
             k_summary_align = AlignInfo.SummaryInfo(k_alg)
             k_out = SeqRecord.SeqRecord(k_summary_align.dumb_consensus())
-            k_out_name = hla_id + '*' + k + ':NA:NA'
+            k_out_name = hla_id + '*' + k + ':NA'
             k_out.id = k_out_name + ' ' + k_out_name
             k_out.name = k_out_name + ' ' + k_out_name
             k_out.description = k_out_name + ' ' + k_out_name
@@ -808,7 +808,7 @@ def msf(args, parser):
             k_alg = MultipleSeqAlignment(k_records)
             k_summary_align = AlignInfo.SummaryInfo(k_alg)
             k_out = SeqRecord.SeqRecord(k_summary_align.dumb_consensus())
-            k_out_name = hla_id + '*' + k + ':NA:NA'
+            k_out_name = hla_id + '*' + k + ':NA'
             k_out.id = k_out_name + ' ' + k_out_name
             k_out.name = k_out_name + ' ' + k_out_name
             k_out.description = k_out_name + ' ' + k_out_name
