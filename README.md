@@ -59,6 +59,8 @@ mkdir msf
 cd msf
 wget -A msf -l 1 -r -nd --no-parent ftp://ftp.ebi.ac.uk/pub/databases/ipd/imgt/hla/msf/
 quickhla msf -i .
+cd ..
+quickhla build -gen msf/gen_2d.consensus.fasta -nuc msf/nuc_2d.consensus.fasta -t 12 -o msf.db
 ```
 
 For paired reads `FORWARD.fq` and `REVERSE.fq` using the standard `nuc` database created for four-digits `4d` , the basic usage is:

@@ -738,7 +738,33 @@ def msf(args, parser):
             k_out.description = k_out_name + ' ' + k_out_name
             k_out.seq = Seq.Seq(str(k_out.seq).replace('X','N'))
             gen_2d.append(k_out)
+        hla_4d = [':'.join(x.split(':')[:2]) for x in hla_sub]
+        for k in list(set(hla_4d)):
+            k_records = [f_records[x_idx] for x_idx, y in enumerate(hla_4d) if y == k]
+            k_alg = MultipleSeqAlignment(k_records)
+            k_summary_align = AlignInfo.SummaryInfo(k_alg)
+            k_out = SeqRecord.SeqRecord(k_summary_align.dumb_consensus())
+            k_out_name = hla_id + '*' + k + ':NA:NA'
+            k_out.id = k_out_name + ' ' + k_out_name
+            k_out.name = k_out_name + ' ' + k_out_name
+            k_out.description = k_out_name + ' ' + k_out_name
+            k_out.seq = Seq.Seq(str(k_out.seq).replace('X', 'N'))
+            gen_4d.append(k_out)
+        hla_6d = [':'.join(x.split(':')[:3]) for x in hla_sub]
+        for k in list(set(hla_6d)):
+            k_records = [f_records[x_idx] for x_idx, y in enumerate(hla_6d) if y == k]
+            k_alg = MultipleSeqAlignment(k_records)
+            k_summary_align = AlignInfo.SummaryInfo(k_alg)
+            k_out = SeqRecord.SeqRecord(k_summary_align.dumb_consensus())
+            k_out_name = hla_id + '*' + k + ':NA:NA'
+            k_out.id = k_out_name + ' ' + k_out_name
+            k_out.name = k_out_name + ' ' + k_out_name
+            k_out.description = k_out_name + ' ' + k_out_name
+            k_out.seq = Seq.Seq(str(k_out.seq).replace('X', 'N'))
+            gen_6d.append(k_out)
     SeqIO.write(gen_2d, args.i + '/' + 'gen_2d.consensus.fasta', 'fasta')
+    SeqIO.write(gen_4d, args.i + '/' + 'gen_4d.consensus.fasta', 'fasta')
+    SeqIO.write(gen_6d, args.i + '/' + 'gen_6d.consensus.fasta', 'fasta')
     for f in nuc_files:
         f_alg = AlignIO.read(f, 'msf')
         f_records = []
@@ -764,7 +790,33 @@ def msf(args, parser):
             k_out.description = k_out_name + ' ' + k_out_name
             k_out.seq = Seq.Seq(str(k_out.seq).replace('X','N'))
             nuc_2d.append(k_out)
-    SeqIO.write(gen_2d, args.i + '/' + 'nuc_2d.consensus.fasta', 'fasta')
+        hla_4d = [':'.join(x.split(':')[:2]) for x in hla_sub]
+        for k in list(set(hla_4d)):
+            k_records = [f_records[x_idx] for x_idx, y in enumerate(hla_4d) if y == k]
+            k_alg = MultipleSeqAlignment(k_records)
+            k_summary_align = AlignInfo.SummaryInfo(k_alg)
+            k_out = SeqRecord.SeqRecord(k_summary_align.dumb_consensus())
+            k_out_name = hla_id + '*' + k + ':NA:NA'
+            k_out.id = k_out_name + ' ' + k_out_name
+            k_out.name = k_out_name + ' ' + k_out_name
+            k_out.description = k_out_name + ' ' + k_out_name
+            k_out.seq = Seq.Seq(str(k_out.seq).replace('X', 'N'))
+            nuc_4d.append(k_out)
+        hla_6d = [':'.join(x.split(':')[:3]) for x in hla_sub]
+        for k in list(set(hla_6d)):
+            k_records = [f_records[x_idx] for x_idx, y in enumerate(hla_6d) if y == k]
+            k_alg = MultipleSeqAlignment(k_records)
+            k_summary_align = AlignInfo.SummaryInfo(k_alg)
+            k_out = SeqRecord.SeqRecord(k_summary_align.dumb_consensus())
+            k_out_name = hla_id + '*' + k + ':NA:NA'
+            k_out.id = k_out_name + ' ' + k_out_name
+            k_out.name = k_out_name + ' ' + k_out_name
+            k_out.description = k_out_name + ' ' + k_out_name
+            k_out.seq = Seq.Seq(str(k_out.seq).replace('X', 'N'))
+            nuc_6d.append(k_out)
+    SeqIO.write(nuc_2d, args.i + '/' + 'nuc_2d.consensus.fasta', 'fasta')
+    SeqIO.write(nuc_4d, args.i + '/' + 'nuc_4d.consensus.fasta', 'fasta')
+    SeqIO.write(nuc_6d, args.i + '/' + 'nuc_6d.consensus.fasta', 'fasta')
 
 
 def subparser(subparsers):
