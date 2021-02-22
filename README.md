@@ -55,7 +55,7 @@ optional arguments:
 For paired reads `FORWARD.fq` and `REVERSE.fq` using the standard `nuc` database created for four-digits `4d` , the basic usage is:
 
 ```bash
-quikhla classify -f FORWARD.fq -r REVERSE.fq -d hla.db -db hla.nuc.4d.35 -n 2 -t 12
+quickhla classify -f FORWARD.fq -r REVERSE.fq -d hla.db -db hla.nuc.4d.35 -n 4 -t 12
 ```
 
 see help

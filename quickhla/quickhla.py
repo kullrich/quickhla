@@ -35,6 +35,11 @@ import sys
 import argparse
 import numpy as np
 from Bio import SeqIO
+from Bio import AlignIO
+from Bio.Align import AlignInfo
+from Bio.Align import MultipleSeqAlignment
+from Bio import SeqRecord
+from Bio import Seq
 
 
 def build_taxid_tree(hla_0d, hla_2d, hla_4d, hla_6d, hla_8d):
@@ -688,6 +693,80 @@ def classify(args, parser):
         write_hit_dict(hit_dict, args.o + '.' + args.db + '.class.txt', args.n)
 
 
+def msf(args, parser):
+    """
+    creates consensus files
+
+    :param args:
+    :param parser:
+    :return:
+    """
+    if not args.i:
+        parser.print_help()
+        sys.exit('\nPlease specify msf directory')
+    _, _, filenames = next(os.walk(args.i))
+    gen_files = [x for x in filenames if 'gen' in x]
+    nuc_files = [x for x in filenames if 'nuc' in x]
+    gen_2d = []
+    gen_4d = []
+    gen_6d = []
+    nuc_2d = []
+    nuc_4d = []
+    nuc_6d = []
+    for f in gen_files:
+        f_alg = AlignIO.read(f, 'msf')
+        f_records = []
+        for r in f_alg:
+            f_records.append(r)
+        hla = [x.id for x in f_records]
+        hla_0d = [x.id.split('*')[0] for x in f_records]
+        hla_id = list(set(hla_0d))[0]
+        hla_sub = [x.split('*')[1] for x in hla]
+        hla_sub_len = [len(x.split(':')) for x in hla_sub]
+        for x_idx, y_len in enumerate(hla_sub_len):
+            if y_len != 4:
+                hla_sub[x_idx] += ''.join(np.repeat(':NA', 4 - y_len))
+        hla_2d = [x.split(':')[0] for x in hla_sub]
+        for k in list(set(hla_2d)):
+            k_records = [f_records[x_idx] for x_idx,y in enumerate(hla_2d) if y == k]
+            k_alg = MultipleSeqAlignment(k_records)
+            k_summary_align = AlignInfo.SummaryInfo(k_alg)
+            k_out = SeqRecord.SeqRecord(k_summary_align.dumb_consensus())
+            k_out_name = hla_id + '*' + k + ':NA:NA:NA'
+            k_out.id = k_out_name + ' ' + k_out_name
+            k_out.name = k_out_name + ' ' + k_out_name
+            k_out.description = k_out_name + ' ' + k_out_name
+            k_out.seq = Seq.Seq(str(k_out.seq).replace('X','N'))
+            gen_2d.append(k_out)
+    SeqIO.write(gen_2d, args.i + '/' + 'gen_2d.consensus.fasta', 'fasta')
+    for f in nuc_files:
+        f_alg = AlignIO.read(f, 'msf')
+        f_records = []
+        for r in f_alg:
+            f_records.append(r)
+        hla = [x.id for x in f_records]
+        hla_0d = [x.id.split('*')[0] for x in f_records]
+        hla_id = list(set(hla_0d))[0]
+        hla_sub = [x.split('*')[1] for x in hla]
+        hla_sub_len = [len(x.split(':')) for x in hla_sub]
+        for x_idx, y_len in enumerate(hla_sub_len):
+            if y_len != 4:
+                hla_sub[x_idx] += ''.join(np.repeat(':NA', 4 - y_len))
+        hla_2d = [x.split(':')[0] for x in hla_sub]
+        for k in list(set(hla_2d)):
+            k_records = [f_records[x_idx] for x_idx,y in enumerate(hla_2d) if y == k]
+            k_alg = MultipleSeqAlignment(k_records)
+            k_summary_align = AlignInfo.SummaryInfo(k_alg)
+            k_out = SeqRecord.SeqRecord(k_summary_align.dumb_consensus())
+            k_out_name = hla_id + '*' + k + ':NA:NA:NA'
+            k_out.id = k_out_name + ' ' + k_out_name
+            k_out.name = k_out_name + ' ' + k_out_name
+            k_out.description = k_out_name + ' ' + k_out_name
+            k_out.seq = Seq.Seq(str(k_out.seq).replace('X','N'))
+            nuc_2d.append(k_out)
+    SeqIO.write(gen_2d, args.i + '/' + 'nuc_2d.consensus.fasta', 'fasta')
+
+
 def subparser(subparsers):
     # build; parser
     parser_build = subparsers.add_parser('build', help='build help')
@@ -730,6 +809,10 @@ def subparser(subparsers):
                                  default='--fast -k 1000')
     parser_classify.add_argument('-n', help='specify number of top hits to report [default: show all]', type=int)
     parser_classify.set_defaults(func=classify)
+    # build consensus; parser
+    parser_msf = subparsers.add_parser('msf', help='msf help')
+    parser_msf.add_argument('-i', help='specify msf directory [mandatory]')
+    parser_classify.set_defaults(func=msf)
 
 
 def main():
