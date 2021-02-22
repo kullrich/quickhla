@@ -728,7 +728,7 @@ def msf(args, parser):
                 hla_sub[x_idx] += ''.join(np.repeat(':NA', 4 - y_len))
         hla_2d = [x.split(':')[0] for x in hla_sub]
         for k in list(set(hla_2d)):
-            k_records = [f_records[x_idx] for x_idx,y in enumerate(hla_2d) if y == k]
+            k_records = [f_records[x_idx] for x_idx, y in enumerate(hla_2d) if y == k]
             k_alg = MultipleSeqAlignment(k_records)
             k_summary_align = AlignInfo.SummaryInfo(k_alg)
             k_out = SeqRecord.SeqRecord(k_summary_align.dumb_consensus())
@@ -736,7 +736,7 @@ def msf(args, parser):
             k_out.id = k_out_name + ' ' + k_out_name
             k_out.name = k_out_name + ' ' + k_out_name
             k_out.description = k_out_name + ' ' + k_out_name
-            k_out.seq = Seq.Seq(str(k_out.seq).replace('X','N'))
+            k_out.seq = Seq.Seq(str(k_out.seq).replace('X', 'N'))
             gen_2d.append(k_out)
         hla_4d = [':'.join(x.split(':')[:2]) for x in hla_sub]
         for k in list(set(hla_4d)):
@@ -780,7 +780,7 @@ def msf(args, parser):
                 hla_sub[x_idx] += ''.join(np.repeat(':NA', 4 - y_len))
         hla_2d = [x.split(':')[0] for x in hla_sub]
         for k in list(set(hla_2d)):
-            k_records = [f_records[x_idx] for x_idx,y in enumerate(hla_2d) if y == k]
+            k_records = [f_records[x_idx] for x_idx, y in enumerate(hla_2d) if y == k]
             k_alg = MultipleSeqAlignment(k_records)
             k_summary_align = AlignInfo.SummaryInfo(k_alg)
             k_out = SeqRecord.SeqRecord(k_summary_align.dumb_consensus())
@@ -788,7 +788,7 @@ def msf(args, parser):
             k_out.id = k_out_name + ' ' + k_out_name
             k_out.name = k_out_name + ' ' + k_out_name
             k_out.description = k_out_name + ' ' + k_out_name
-            k_out.seq = Seq.Seq(str(k_out.seq).replace('X','N'))
+            k_out.seq = Seq.Seq(str(k_out.seq).replace('X', 'N'))
             nuc_2d.append(k_out)
         hla_4d = [':'.join(x.split(':')[:2]) for x in hla_sub]
         for k in list(set(hla_4d)):
